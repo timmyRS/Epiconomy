@@ -1,0 +1,35 @@
+---
+name: Epiconomy
+version: 1.0
+main: de.timmyrs.Epiconomy
+load: STARTUP
+depend: [Vault]
+author: timmyRS
+website: https://github.com/timmyrs/Epiconomy
+
+commands:
+  epiconomy: {}
+  money:
+    aliases: [balance, bal]
+    permission: epiconomy.money
+  sendmoney:
+    aliases: [pay]
+    permission: epiconomy.sendmoney
+  givemoney:
+    permission: epiconomy.givemoney
+  takemoney:
+    permission: epiconomy.takemoney
+
+permissions:
+  epiconomy.money:
+    default: true
+  epiconomy.money.other:
+    default: 'op'
+  epiconomy.sendmoney:
+    default: true
+  epiconomy.givemoney:
+    default: 'op'
+  epiconomy.takemoney:
+    default: 'op'
+  epiconomy.reload:
+    default: 'op'
