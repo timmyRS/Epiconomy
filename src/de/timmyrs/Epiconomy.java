@@ -265,98 +265,98 @@ class EpiconomyEconomy implements Economy
 	}
 
 	@Override
-	public boolean hasAccount(String s)
+	public boolean hasAccount(String player)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean hasAccount(OfflinePlayer offlinePlayer)
+	public boolean hasAccount(OfflinePlayer player)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean hasAccount(String s, String s1)
+	public boolean hasAccount(String player, String world)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean hasAccount(OfflinePlayer offlinePlayer, String s)
+	public boolean hasAccount(OfflinePlayer player, String world)
 	{
 		return true;
 	}
 
 	@Override
-	public double getBalance(String s)
+	public double getBalance(String player)
 	{
-		return getBalance(Bukkit.getServer().getOfflinePlayer(s));
+		return getBalance(Bukkit.getServer().getOfflinePlayer(player));
 	}
 
 	@Override
-	public double getBalance(OfflinePlayer p)
+	public double getBalance(OfflinePlayer player)
 	{
-		if(p == null)
+		if(player == null)
 		{
 			return 0;
 		}
-		final YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(Epiconomy.getConfigFile(p.getUniqueId()));
+		final YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(Epiconomy.getConfigFile(player.getUniqueId()));
 		return playerConfig.getDouble("a", 0);
 	}
 
 	@Override
-	public double getBalance(String s, String s1)
+	public double getBalance(String player, String world)
 	{
-		return getBalance(Bukkit.getServer().getOfflinePlayer(s));
+		return getBalance(Bukkit.getServer().getOfflinePlayer(player));
 	}
 
 	@Override
-	public double getBalance(OfflinePlayer p, String s)
+	public double getBalance(OfflinePlayer player, String s)
 	{
-		return getBalance(p);
+		return getBalance(player);
 	}
 
 	@Override
-	public boolean has(String s, double v)
+	public boolean has(String player, double amount)
 	{
-		return has(Bukkit.getServer().getOfflinePlayer(s), v);
+		return has(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public boolean has(OfflinePlayer p, double v)
+	public boolean has(OfflinePlayer player, double amount)
 	{
-		return getBalance(p) >= v;
+		return getBalance(player) >= amount;
 	}
 
 	@Override
-	public boolean has(String s, String s1, double v)
+	public boolean has(String player, String world, double amount)
 	{
-		return has(Bukkit.getServer().getOfflinePlayer(s), v);
+		return has(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public boolean has(OfflinePlayer p, String s, double v)
+	public boolean has(OfflinePlayer player, String world, double amount)
 	{
-		return has(p, v);
+		return has(player, amount);
 	}
 
 	@Override
-	public EconomyResponse withdrawPlayer(String s, double v)
+	public EconomyResponse withdrawPlayer(String player, double amount)
 	{
-		return withdrawPlayer(Bukkit.getServer().getOfflinePlayer(s), v);
+		return withdrawPlayer(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public EconomyResponse withdrawPlayer(OfflinePlayer p, double v)
+	public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount)
 	{
-		if(v < 0)
+		if(amount < 0)
 		{
 			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Amount has to be positive.");
 		}
-		final File playerConfigFile = Epiconomy.getConfigFile(p.getUniqueId());
+		final File playerConfigFile = Epiconomy.getConfigFile(player.getUniqueId());
 		final YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerConfigFile);
-		double a = playerConfig.getDouble("a", 0) - v;
+		double a = playerConfig.getDouble("a", 0) - amount;
 		playerConfig.set("a", a);
 		try
 		{
@@ -366,37 +366,37 @@ class EpiconomyEconomy implements Economy
 		{
 			e.printStackTrace();
 		}
-		return new EconomyResponse(v, a, EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(amount, a, EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
 	@Override
-	public EconomyResponse withdrawPlayer(String s, String s1, double v)
+	public EconomyResponse withdrawPlayer(String player, String world, double amount)
 	{
-		return withdrawPlayer(Bukkit.getServer().getOfflinePlayer(s), v);
+		return withdrawPlayer(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public EconomyResponse withdrawPlayer(OfflinePlayer p, String s, double v)
+	public EconomyResponse withdrawPlayer(OfflinePlayer player, String s, double amount)
 	{
-		return withdrawPlayer(p, v);
+		return withdrawPlayer(player, amount);
 	}
 
 	@Override
-	public EconomyResponse depositPlayer(String s, double v)
+	public EconomyResponse depositPlayer(String player, double amount)
 	{
-		return depositPlayer(Bukkit.getServer().getOfflinePlayer(s), v);
+		return depositPlayer(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public EconomyResponse depositPlayer(OfflinePlayer p, double v)
+	public EconomyResponse depositPlayer(OfflinePlayer player, double amount)
 	{
-		if(v < 0)
+		if(amount < 0)
 		{
 			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Amount has to be positive.");
 		}
-		final File playerConfigFile = Epiconomy.getConfigFile(p.getUniqueId());
+		final File playerConfigFile = Epiconomy.getConfigFile(player.getUniqueId());
 		final YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerConfigFile);
-		double a = playerConfig.getDouble("a", 0) + v;
+		double a = playerConfig.getDouble("a", 0) + amount;
 		playerConfig.set("a", a);
 		try
 		{
@@ -406,83 +406,83 @@ class EpiconomyEconomy implements Economy
 		{
 			e.printStackTrace();
 		}
-		return new EconomyResponse(v, a, EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(amount, a, EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
 	@Override
-	public EconomyResponse depositPlayer(String s, String s1, double v)
+	public EconomyResponse depositPlayer(String player, String world, double amount)
 	{
-		return depositPlayer(Bukkit.getServer().getOfflinePlayer(s), v);
+		return depositPlayer(Bukkit.getServer().getOfflinePlayer(player), amount);
 	}
 
 	@Override
-	public EconomyResponse depositPlayer(OfflinePlayer p, String s, double v)
+	public EconomyResponse depositPlayer(OfflinePlayer player, String world, double amount)
 	{
-		return depositPlayer(p, v);
+		return depositPlayer(player, amount);
 	}
 
 	@Override
-	public EconomyResponse createBank(String s, String s1)
-	{
-		return null;
-	}
-
-	@Override
-	public EconomyResponse createBank(String s, OfflinePlayer offlinePlayer)
+	public EconomyResponse createBank(String bank, String player)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse deleteBank(String s)
+	public EconomyResponse createBank(String bank, OfflinePlayer player)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse bankBalance(String s)
+	public EconomyResponse deleteBank(String bank)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse bankHas(String s, double v)
+	public EconomyResponse bankBalance(String bank)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse bankWithdraw(String s, double v)
+	public EconomyResponse bankHas(String bank, double amount)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse bankDeposit(String s, double v)
+	public EconomyResponse bankWithdraw(String bank, double amount)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse isBankOwner(String s, String s1)
+	public EconomyResponse bankDeposit(String bank, double amount)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse isBankOwner(String s, OfflinePlayer offlinePlayer)
+	public EconomyResponse isBankOwner(String bank, String player)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse isBankMember(String s, String s1)
+	public EconomyResponse isBankOwner(String bank, OfflinePlayer player)
 	{
 		return null;
 	}
 
 	@Override
-	public EconomyResponse isBankMember(String s, OfflinePlayer offlinePlayer)
+	public EconomyResponse isBankMember(String bank, String player)
+	{
+		return null;
+	}
+
+	@Override
+	public EconomyResponse isBankMember(String bank, OfflinePlayer player)
 	{
 		return null;
 	}
@@ -494,26 +494,26 @@ class EpiconomyEconomy implements Economy
 	}
 
 	@Override
-	public boolean createPlayerAccount(String s)
+	public boolean createPlayerAccount(String player)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean createPlayerAccount(OfflinePlayer offlinePlayer)
+	public boolean createPlayerAccount(OfflinePlayer player)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean createPlayerAccount(String s, String s1)
+	public boolean createPlayerAccount(String player, String world)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s)
+	public boolean createPlayerAccount(OfflinePlayer player, String world)
 	{
-		return true;
+		return false;
 	}
 }
